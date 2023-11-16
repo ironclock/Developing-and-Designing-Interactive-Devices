@@ -1,14 +1,14 @@
 ## Team Members
 
-Shai Aarons (sla88)
+Shai "The Bacchanalian" Aarons (sla88)
 
-Ariana Bhigroog (ab2959)
+Ariana "The One Who Sees All" Bhigroog (ab2959)
 
-Jon Caceres (jc3569)
+Jon "The Apparatus" Caceres (jc3569)
 
-Rachel Minkowitz (rhm256)
+Rachel "The Weaver" Minkowitz (rhm256)
 
-Amando Xu (ax45)
+Amando "The Miracle Worker" Xu (ax45)
 
 # Final Project
 
