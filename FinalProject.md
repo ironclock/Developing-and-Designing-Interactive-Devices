@@ -1,22 +1,16 @@
 ## Team Members
 
-Shai "The Bacchanalian" Aarons (sla88)
+Shai "The Bacchanalian" Aarons (sla88) 🕺
 
-Ariana "The One Who Sees All" Bhigroog (ab2959)
+Ariana "The One Who Sees All" Bhigroog (ab2959) ❤️‍🔥
 
-Jon "The Apparatus" Caceres (jc3569)
+Jon "The Apparatus" Caceres (jc3569) 🚀
 
-Rachel "The Weaver" Minkowitz (rhm256)
+Rachel "The Weaver" Minkowitz (rhm256) 🍄
 
-Amando "The Miracle Worker" Xu (ax45)
+Amando "The Miracle Worker" Xu (ax45) ✨
 
 # Final Project
-
-Using the tools and techniques you learned in this class, design, prototype and test an interactive device.
-
-Project plan - November 14
-
-Peer feedback on Project plans: November 21
 
 Functional check-off - November 28 & 30
 
@@ -25,6 +19,9 @@ Final Project Presentations - December 5 & 7
 Write-up and documentation due - December 14
 
 ## Big Idea
+![PeePass-logos_black](https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/25d9c15c-d581-4b26-b052-30df17db408d)
+
+
 
 PeePass is a mobile application that connects users to nearby business restrooms offering clean toilets through an application interface and proprietary locking mechanism on bathroom doors.
 
