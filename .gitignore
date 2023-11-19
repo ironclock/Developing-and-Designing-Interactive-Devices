@@ -35,3 +35,5 @@ venv
 keys.json
 apple_emoji.ttc
 __pycache__/
+
+node_modules
