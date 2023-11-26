@@ -1,0 +1,168 @@
+import digitalio
+import board
+from PIL import Image, ImageDraw, ImageFont
+from adafruit_rgb_display import ili9341
+import qwiic_keypad
+import time
+import sys
+import RPi.GPIO as GPIO
+
+#GPIO setup
+GPIO.setmode(GPIO.BCM)
+PIN = 23  # Make sure this is the correct pin connected to your lock
+GPIO.setup(PIN, GPIO.OUT)
+
+# Screen setup
+cs_pin = digitalio.DigitalInOut(board.CE0)
+dc_pin = digitalio.DigitalInOut(board.D25)
+reset_pin = digitalio.DigitalInOut(board.D27)
+BAUDRATE = 24000000
+spi = board.SPI()
+disp = ili9341.ILI9341(
+    spi, cs=cs_pin, dc=dc_pin, rst=reset_pin, baudrate=BAUDRATE, width=240, height=320
+)
+
+# Load and prepare QR code image
+image_path = 'qr-code-unlock.png'  # Adjust path as needed
+qr_image = Image.open(image_path)
+aspect_ratio = qr_image.width / qr_image.height
+
+# Increase the height of the QR code, for example, 3/4th of the display height
+qr_height = int(disp.height * 3 / 4)
+qr_width = int(aspect_ratio * qr_height)
+
+# Resize the QR image
+qr_image = qr_image.resize((qr_width, qr_height), Image.BICUBIC)
+
+# Ensure QR code width doesn't exceed the display width
+if qr_width > disp.width:
+    qr_width = disp.width
+    qr_height = int(qr_width / aspect_ratio)
+    qr_image = qr_image.resize((qr_width, qr_height), Image.BICUBIC)
+
+# Keypad setup
+print("\nSparkFun qwiic Keypad Example\n")
+myKeypad = qwiic_keypad.QwiicKeypad()
+if not myKeypad.connected:
+    print("The Qwiic Keypad device isn't connected to the system. Please check your connection", file=sys.stderr)
+    sys.exit(1)
+myKeypad.begin()
+print("Initialized. Firmware Version:", myKeypad.version)
+
+# Function to update the screen with QR code and text
+def update_screen(display, qr, text, message):
+    width, height = display.width, display.height
+    combined_image = Image.new("RGB", (width, height), "white")  # Background color white
+
+    # Paste QR code
+    x_qr = (width - qr_width) // 2
+    combined_image.paste(qr, (x_qr, 0))
+
+    # Create font object for drawing text
+    text_font_path = "arial.ttf"  # Adjust as needed
+    text_font_size = 60  # Font size for the text is 60
+    text_font = ImageFont.truetype(text_font_path, text_font_size)
+
+    # Create a separate font object for the message
+    message_font_path = "arial.ttf"  # Adjust as needed
+    message_font_size = 24  # Font size for the message is 24
+    message_font = ImageFont.truetype(message_font_path, message_font_size)
+
+    # Create ImageDraw object
+    draw = ImageDraw.Draw(combined_image)
+
+    # Manually set the x-coordinate for text
+    text_x = 27  # As you've set
+
+    # Adjust the y-coordinate to move text closer to the QR code
+    spacing = -25  # Space between the QR code and the text, adjust as needed
+    text_y = qr_height + spacing  # Position text closer to the QR code
+
+    # Draw the text
+    draw.text((text_x, text_y), text, font=text_font, fill="black")  # Font color black
+    if message == "Connecting...":
+        message_y = text_y + text_font_size + 10  # Adjust position of the message below the text
+        text_x2 = 53
+        draw.text((text_x2, message_y), message, font=message_font, fill="black")  # Font color black
+    elif message == "Wrong code!":
+        message_y = text_y + text_font_size + 10  # Adjust position of the message below the text
+        text_x2 = 58
+        draw.text((text_x2, message_y), message, font=message_font, fill="black")  # Font color black
+    elif message == "Success!":
+        message_y = text_y + text_font_size + 10  # Adjust position of the message below the text
+        text_x2 = 70
+        draw.text((text_x2, message_y), message, font=message_font, fill="black")  # Font color black
+    else:
+        # Draw the message (if any) below the text
+        message_y = text_y + text_font_size + 10  # Adjust position of the message below the text
+        text_x2 = 15
+        draw.text((text_x2, message_y), message, font=message_font, fill="black")  # Font color black
+
+    # Display the combined image
+    display.image(combined_image)
+
+def check_code(input_code):
+    return input_code == "1234"
+
+# Initialize text with underscores
+text = "_ _ _ _"
+message = ""
+update_screen(disp, qr_image, text, message)
+
+# Main loop
+input_count = 0
+while True:
+    myKeypad.update_fifo()
+    button = myKeypad.get_button()
+
+    if button == -1:
+        print("No keypad detected")
+        time.sleep(1)
+
+    elif button != 0:
+        charButton = chr(button)
+
+        if charButton == '*':  # Backspace
+            if input_count > 0:
+                input_count -= 1
+                text = text[:input_count*2] + '_' + text[input_count*2+1:]
+                message = ""
+
+        elif charButton == '#':
+            if input_count != 4:
+                message = "Please input 4 digits"
+            else:
+                inputted_code = text.replace(" ", "")  # Remove spaces
+                
+                # Display "Connecting..." message
+                message = "Connecting..."
+                update_screen(disp, qr_image, text, message)
+                
+                # Wait for 1 second
+                time.sleep(1)
+                
+                # Check code and display result
+                if check_code(inputted_code):
+                    message = "Success!"
+                    update_screen(disp, qr_image, text, message)
+                    GPIO.output(PIN, GPIO.LOW)
+                    time.sleep(5)  # Wait for 5 seconds
+                    GPIO.output(PIN, GPIO.HIGH)
+                    text = "_ _ _ _"
+                    input_count = 0
+                    message = ""
+                    update_screen(disp, qr_image, text, message)
+                    # Additional actions for successful code, like unlocking, can be added here
+                else:
+                    message = "Wrong code!"
+                    text = "_ _ _ _"
+                    input_count = 0
+
+        elif input_count < 4 and charButton.isdigit():
+            text = text[:input_count*2] + charButton + text[input_count*2+1:]
+            input_count += 1
+            message = ""
+
+        update_screen(disp, qr_image, text, message)
+
+    time.sleep(.1)

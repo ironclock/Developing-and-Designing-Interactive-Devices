@@ -5,60 +5,6 @@
 # # From https://github.com/sparkfun/Qwiic_Keypad_Py/blob/main/examples/qwiic_keypad_ex2.py
 
 
-# from __future__ import print_function
-# import qwiic_keypad
-# import time
-# import sys
-
-# def runExample():
-
-# 	print("\nSparkFun qwiic Keypad   Example 1\n")
-# 	myKeypad = qwiic_keypad.QwiicKeypad()
-
-# 	if myKeypad.connected == False:
-# 		print("The Qwiic Keypad device isn't connected to the system. Please check your connection", \
-# 			file=sys.stderr)
-# 		return
-
-# 	myKeypad.begin()
-
-# 	print("Initialized. Firmware Version: %s" % myKeypad.version)
-# 	print("Press a button: * to do a space. # to go to next line.")
-
-# 	button = 0
-# 	while True:
-
-# 		# necessary for keypad to pull button from stack to readable register
-# 		myKeypad.update_fifo()  
-# 		button = myKeypad.get_button()
-
-# 		if button == -1:
-# 			print("No keypad detected")
-# 			time.sleep(1)
-
-# 		elif button != 0:
-
-# 			# Get the character version of this char
-# 			charButton = chr(button)
-# 			if charButton == '#':
-# 				print()
-# 			elif charButton == '*':
-# 				print(" ", end="")
-# 			else: 
-# 				print(charButton, end="")
-
-# 			# Flush the stdout buffer to give immediate user feedback
-# 			sys.stdout.flush()
-
-# 		time.sleep(.25)
-
-# if __name__ == '__main__':
-# 	try:
-# 		runExample()
-# 	except (KeyboardInterrupt, SystemExit) as exErr:
-# 		print("\nEnding Example 1")
-# 		sys.exit(0)
-
 import digitalio
 import board
 from PIL import Image, ImageDraw, ImageFont
@@ -66,6 +12,8 @@ from adafruit_rgb_display import ili9341
 import qwiic_keypad
 import time
 import sys
+
+#inputs = ["", "", "", ""]
 
 # Screen setup
 cs_pin = digitalio.DigitalInOut(board.CE0)
@@ -91,12 +39,21 @@ def update_screen(display, text):
     width, height = display.width, display.height
     image = Image.new("RGB", (width, height))
     draw = ImageDraw.Draw(image)
-    font = ImageFont.load_default()
+
+    font_path = "arial.ttf"  
+    font_size = 60  # Adjust this size as needed
+    font = ImageFont.truetype(font_path, font_size)
+
     draw.text((0, 0), text, font=font, fill="#FFFFFF")
+
     display.image(image)
 
+# Initialize text with underscores
+text = "_ _ _ _"
+update_screen(disp, text)
+
 # Main loop
-text = ""
+input_count = 0
 while True:
     myKeypad.update_fifo()
     button = myKeypad.get_button()
@@ -107,14 +64,26 @@ while True:
 
     elif button != 0:
         charButton = chr(button)
-        if charButton == '#':
-            text += '\n'
-        elif charButton == '*':
-            text += ' '
-        else: 
-            text += charButton
 
-        update_screen(disp, text)
+        if charButton == '*':  # Backspace
+            if input_count > 0:
+                input_count -= 1
+                text = text[:input_count*2] + '_' + text[input_count*2+1:]
+                update_screen(disp, text)
 
-    time.sleep(.25)
+        elif charButton == '#' and input_count == 4:  # Enter
+            # Perform an action since all 4 digits are entered
+            print("Entered number: ", text.replace(" ", ""))  # Example action
 
+            # Reset the input
+            text = "_ _ _ _"
+            input_count = 0
+            update_screen(disp, text)
+
+        elif input_count < 4:
+            if charButton.isdigit():
+                text = text[:input_count*2] + charButton + text[input_count*2+1:]
+                input_count += 1
+                update_screen(disp, text)
+
+    time.sleep(.1)
