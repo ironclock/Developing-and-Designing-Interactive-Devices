@@ -14,7 +14,7 @@ app.listen(port, () => {
 
 app.get('/generate_qr', async (req, res) => {
   try {
-    const url = 'http://10.0.0.16:8000/trigger-relay'; // This could be dynamic based on query params
+    const url = 'https://a05f-128-84-95-212.ngrok-free.app/trigger-relay'; // This could be dynamic based on query params
     const qrCodeImage = await QRCode.toDataURL(url);
     res.send(`<img src="${qrCodeImage}"/>`); // Sends QR code as an image
   } catch (error) {

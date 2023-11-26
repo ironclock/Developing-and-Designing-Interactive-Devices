@@ -34,4 +34,4 @@ def trigger_relay():
     GPIO.output(PIN, GPIO.HIGH)
     return "Relay triggered for 5 seconds"
 
-app.run(debug=True, host='10.0.0.16', port=8000)  # Set up the server
+app.run(debug=True, host='127.0.0.1', port=3000)  # Set up the server
