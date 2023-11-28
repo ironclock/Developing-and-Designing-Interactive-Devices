@@ -31,8 +31,6 @@ Our objective is to create a 3D miniature bathroom setting with would simulate t
 
 ## Deliverables
 
-1. Project plan: Big idea, timeline, parts needed, fall-back plan.
-
 ### Project Plan:
 
 ### 1. Conceptualization and Design (Week 1)
@@ -76,13 +74,41 @@ Our objective is to create a 3D miniature bathroom setting with would simulate t
     - Prepare a demonstration setup.
     - Review the project against initial objectives and specifications.
 
+ ### Functioning Project:
+
+ ### Design Process:
+
+ #### Background
+Throughout the semester we were very excited for this Final Project. So much so, that whenever we came up with a good idea we filed it for the final project :) 
+
+A couple of ideas we came up with throughout the semester include:
+1. Building on our Bender Security System to be more efficient and robust
+2. Creating a wallet that indicates which cards you have on you (i.e. insurance card, credit card A) according to colored lights
+3. Smart Mirror - A mirror that displays inspirations quotes and motivating sayings if it detects someone is sad
+4. Digital pet rock which responds to different interactions
+5. Creating the PeePass lock which functions for Startup Studio
+
+Although there are some cute ideas in this list, we decided to go with option 5 - starting to work on the team's next semester startup studio idea which is PeePass. Because this studio idea is very realistic, we wanted to try to simulate the real life experience of using peepass as much as possible. Ideally, we would have access to a real life bathrooom and door, but since that's not feasible we decided to simulate the experience as much as possible. With that in mind, we wanted to build a mini bathroom with a life size lock that opens via an App and QR code or keypad with proper authentication etc.
+
+#### Initial Sketches
+
+![IMG_12F19BD60560-1](https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/c7f373de-6605-419f-bf7d-c694d51dec25)
+
+#### Storyboard
+
+#### Development Happenings
+We started development with compiling a list of sensors/components needed and buying the various items that we did not have including an NFC Scanner, a lock, a VERY large battery pack, some wood, a larger screen and a lock ---. 
+
+Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) 
+
+
+////to be deleted
 3. Functioning project: The finished project should be a device, system, interface, etc. that people can interact with.
 
 4. Documentation of design process
 5. Archive of all code, design patterns, etc. used in the final design. (As with labs, the standard should be that the documentation would allow you to recreate your project if you woke up with amnesia.)
 6. Video of someone using your project
 7. Reflections on process (What have you learned or wish you knew at the start?)
-
 8. Group work distribution questionnaire
 
 ## Change of Design
