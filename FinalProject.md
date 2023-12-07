@@ -10,20 +10,18 @@ Rachel "The Weaver" Minkowitz (rhm256) 🍄
 
 Amando "The Miracle Worker" Xu (ax45) ✨
 
-# Final Project
-
-Functional check-off - November 28 & 30
-
-Final Project Presentations - December 5 & 7
-
-Write-up and documentation due - December 14
-
-## Big Idea
+## Final Project Big Idea
 ![PeePass-logos_black](https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/25d9c15c-d581-4b26-b052-30df17db408d)
 
+PeePass is a mobile application that connects users to nearby business restrooms offering clean toilets through an application interface and proprietary locking mechanism on bathroom doors. 
 
+PeePass is a cool mobile app that makes finding a clean restroom a breeze. With a simple interface, it connects users with nearby businesses that offer top-notch toilets. Plus, its seamless integration with a proprietary bathroom security system and locking mechanism adds an extra layer of privacy for an *Elite Bathroom Experience*.
 
-PeePass is a mobile application that connects users to nearby business restrooms offering clean toilets through an application interface and proprietary locking mechanism on bathroom doors.
+Imagine you're out and about, and suddenly, you need to use the restroom. Public restrooms trigger some sort of a trauma for you. Don't fret. Whip out PeePass, tap a few times, and voila – you're directed to the closest spot with a sparkling clean toilet. The app's design is super easy to navigate, making your bathroom quest a piece of cake.
+
+But here's the real kicker: PeePass isn't just about finding a restroom; it's about making the whole experience better. The bathroom doors come with this cool proprietary locking thingamajig. It's not just a lock; it's like your personal VIP entry to a clean and comfy oasis.
+
+So, whether you're in the middle of the city or just exploring, PeePass is your restroom sidekick. It's all about keeping things simple, making sure you find a great restroom without any fuss, and enjoying a bit of extra privacy with that snazzy door lock. Say goodbye to restroom stress and hello to hassle-free pit stops with PeePass!
 
 ## Objective
 
