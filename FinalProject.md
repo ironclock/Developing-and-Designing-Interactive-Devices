@@ -126,7 +126,7 @@ We started development with compiling a list of sensors/components needed. In ma
 
 Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
 
-##### Pieces of the Puzzle:
+##### Tech Pieces of the Puzzle:
 
 1. **Raspberry Pi runs a Flask Script:** The Raspberry Pi, is running a Python script that utilizes Flask. In this case, the script creates a local web server accessible within our local network. At this point - the QR code was accessible locally, which is not enough when accessing the QR code through anyones phone ([Video: Local is a Go!](https://drive.google.com/file/d/16IOC8wSJXLmvBi9g8AYsVX0Kvxjibdx3/view?usp=share_link)) 
 
@@ -139,6 +139,14 @@ Originally we had planned to use an NFC scanner to validate entrance into the re
 5. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
 
 6. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
+
+##### Physical Pieces of the Puzzle
+
+1. **Restroom structure:** We had origianlly thought to 3D print the entire restroom and leave a wooden door but that turned out to be hard than anticipated. Instead we bought wood for all the walls and door. After assembling this structure, we decided acryllic walls would make for a more aethstetic appearance.
+
+2. **Storing the Pi:** We created a 'drop floor' to hide the pi in the restroom structure while ensuring the lock relay and battery pack remained connected.
+   
+3. 
 
 #### Running/Testing the App + QR code
 
@@ -175,6 +183,24 @@ Assuming the pi and battery pack are switched on and connected we could activate
 <aside>
 🎉 Tada - navigate to the TestFlight App and scan QR
 </aside>
+
+#### Photo Gallery
+
+
+
+
+
+
+
+
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="528" alt="Screen Shot 2023-12-08 at 3 23 25 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/6919169a-5f44-45d0-bcfb-bf7dcd53a48a"> |<img width="528" alt="Screen Shot 2023-12-08 at 3 22 48 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/186b15cb-27ba-4819-bf32-e23f6ed97cd3">|<img width="528" alt="Screen Shot 2023-12-08 at 3 29 33 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/3e9c4d08-fb84-4cb8-a8d9-6adb29f309c8">|
+<img width="528" alt="Screen Shot 2023-12-08 at 3 29 45 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/bc281684-0ded-4a7a-b466-293f3e1f251d">|<img width="528" alt="Screen Shot 2023-12-08 at 3 29 58 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/e5a09e61-fb87-482f-b908-20188dc5333e">|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 12 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ac385088-acaa-49be-ac68-87b67d427ccd">|<img width="528" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/ironclock/Interactive-Lab-Hub/assets/82296790/2004a071-6685-492d-b4c8-51b23ce573e2">|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 28 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ed00a457-27fa-4789-a96d-1260391f2fff">
+|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 20 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/fa278dd8-4fb6-424e-b708-8f997e6fb1da"> |<img width="528" alt="Screen Shot 2023-12-08 at 3 30 28 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/7396e38e-7eb8-4761-bef0-90535292a7d6">||
+| | 
+
 
 ### Video of someone using your project
 
