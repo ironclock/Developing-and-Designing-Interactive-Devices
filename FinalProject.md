@@ -121,18 +121,62 @@ We wanted to emulate the genuine PeePass experience as closely as possible, even
 
 <img width="400" height="400" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/5cdc86e2-e42b-427d-ad70-8a02752db811">
 
-#### Development Happenings/Challenges/Pivots
-We started development with compiling a list of sensors/components needed. In making this list we also considered the GPIO pins we had available and the amout of power needed to effect our sensors. With that, we bought the various items that we did not have including an NFC Scanner, a lock, a relay, a VERY large battery pack, a larger screen and a lock ---. 
+#### Development/Pivots
+We started development with compiling a list of sensors/components needed. In making this list we also considered the GPIO pins we had available and the amout of power needed to effect our sensors. With that, we bought the various items that we did not have including an NFC Scanner, a lock, a relay switch, a VERY large battery pack, and a larger display screen. 
 
-Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) 
+Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
 
-[Video: Local is a Go!](https://drive.google.com/file/d/16IOC8wSJXLmvBi9g8AYsVX0Kvxjibdx3/view?usp=share_link)
+##### Pieces of the Puzzle:
+
+1. **Raspberry Pi runs a Flask Script:** The Raspberry Pi, is running a Python script that utilizes Flask. In this case, the script creates a local web server accessible within our local network. At this point - the QR code was accessible locally, which is not enough when accessing the QR code through anyones phone ([Video: Local is a Go!](https://drive.google.com/file/d/16IOC8wSJXLmvBi9g8AYsVX0Kvxjibdx3/view?usp=share_link)) 
+
+2. **Ngrok for External Access:** Because we needed the URL to be accessed from anywhere we used this nifty tool called Ngrok. Ngrok is a tool that creates a secure tunnel to our local server (raspberry pi), allowing it to be accessible over the internet. By using Ngrok, we expose the Flask server running on our Raspberry Pi to the wider internet, making it reachable from outside the local network.
+
+3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of your externally accessible server (via Ngrok).
+
+4. **iOS App with Camera access:** We also developed a basic iPhone app using Swift that has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction. 
+
+5. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
+
+6. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
 
 #### Running the App + QR code
 
+Assuming the pi and battery pack are switched on and connected we could activate our app and QR by running through this process:
+
+##### **1st Terminal:**
+
+- navigate to project directory - run `git pull`
+- activate virtual environment by running `source .venv/bin/activate`
+    - if you haven’t already, run `pip install -r requirements.txt`
+- run `python qr-code-lock.py`
+    - ensure server is running at `0.0.0.0:8000`
+
+##### **2nd Terminal:**
+
+- open another terminal → renter the course folder and reactivate virtual environment
+- run command `ngrok http http://0.0.0.0:8000`
+    - note: you may need to install ngrok on your device
+- copy the Forwarding URL ending in .app
+
+##### **3rd terminal (cd backend directory) NOT in venv**
+
+- navigate to project directory and then to `backend` directory
+- open `index.js`
+- replace OLD ngrok URL on line 21 with NEW ngrok URL copied from 2nd Terminal
+- checkin this change via git (add , commit, push)
+- this will automatically deploy to Heroku (give it about 5 min)
+
+##### **4th Terminal**
+
+- navigate to project directory → renter the course folder → reactivate virtual environment
+- run `python qr-code-keypad.py`
+
+<aside>
+🎉 Tada - navigate to the TestFlight App and scan QR
+</aside>
 
 #### Testing
-
 
 ### Video of someone using your project
 
