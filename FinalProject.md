@@ -140,7 +140,7 @@ Originally we had planned to use an NFC scanner to validate entrance into the re
 
 6. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
 
-#### Running the App + QR code
+#### Running/Testing the App + QR code
 
 Assuming the pi and battery pack are switched on and connected we could activate our app and QR by running through this process:
 
@@ -175,8 +175,6 @@ Assuming the pi and battery pack are switched on and connected we could activate
 <aside>
 🎉 Tada - navigate to the TestFlight App and scan QR
 </aside>
-
-#### Testing
 
 ### Video of someone using your project
 
