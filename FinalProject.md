@@ -205,6 +205,17 @@ Assuming the pi and battery pack are switched on and connected we could activate
 ### Video of someone using your project
 
 ### Reflections on process (What have you learned or wish you knew at the start?)
+In the course of developing our project, the collaborative process was enjoyable (as per usual with this team), fostering a strong sense of teamwork among the group. The camaraderie we shared during the project and semester overall not only made the journey memorable but also made for creative problem-solving and effective communication practice.
+
+However, as with any project, we encountered challenges, specifically in the implementation of the NFC reader and the physical assembly of our miniature model. In hindsight, we underestimated the complexity of door locking mechanisms, both in terms of the lock itself and the intricate latch system. This oversight led to a lack of preparedness in our engineering approach.
+
+Furthermore, our oversight extended to the physical materials used in the construction of the door. We failed to fully consider the intricate balance between functionality and aesthetics, which affected the overall design and usability of our project. A key lesson learned was the importance of thorough pre-planning, not only in terms of engineering considerations but also in selecting materials that align with both functionality and aesthetic goals.
+
+Reflecting on our experience, we recognize the need for a more thoughtful approach to design. For future iterations, we would opt for a life-size door handle and a custom-sized laser-cut acrylic or wooden box. This adjustment would not only enhance functionality but also contribute to a cleaner and more visually appealing aesthetic.
+
+Moreover, acknowledging the challenges we faced with the NFC reader, we now realize the value of prioritizing efficiency. In a hypothetical redo, we would streamline our efforts by opting for a QR code scanner instead of investing time in resolving issues with the NFC reader. This strategic decision would allow us to allocate time and resources more effectively, focusing on aspects of the project where we could achieve greater success.
+
+In essence, our project journey was marked by both triumphs and challenges. The insights gained from this experience will undoubtedly guide us toward more informed decision-making and meticulous planning in future endeavors, ultimately contributing to the continuous improvement of our collaborative efforts.
 
 ### Group work distribution
 
