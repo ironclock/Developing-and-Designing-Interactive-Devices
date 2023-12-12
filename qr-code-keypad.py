@@ -27,29 +27,6 @@ strip.begin()
 
 locked = True
 
-# Function to control the light strip
-# def colorWipe(color, wait_ms=50):
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColor(i, color)
-#         strip.show()
-#         time.sleep(wait_ms/1000.0)
-
-# # Function to pulse blue light
-# def pulseBlue(wait_ms=500, iterations=10):
-#     for j in range(iterations):
-#         # Fade in
-#         for i in range(0, 256, 5):
-#             colorWipe(Color(0, 0, i), wait_ms)
-#         # Fade out
-#         for i in range(255, 0, -5):
-#             colorWipe(Color(0, 0, i), wait_ms)
-
-# def colorWipeTwo(strip, color, wait_ms=50):
-#     for i in range(strip.numPixels()):
-#         strip.setPixelColor(i, color)
-#         strip.show()
-#         time.sleep(wait_ms/1000.0)
-
 def colorWipeThreaded(color):
     def run():
         for i in range(strip.numPixels()):
