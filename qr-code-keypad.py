@@ -6,11 +6,16 @@ import qwiic_keypad
 import time
 import sys
 import RPi.GPIO as GPIO
+import requests
+from io import BytesIO
+from html.parser import HTMLParser
+import base64
 
 #GPIO setup
 GPIO.setmode(GPIO.BCM)
 PIN = 23  # Make sure this is the correct pin connected to your lock
 GPIO.setup(PIN, GPIO.OUT)
+GPIO.output(PIN, GPIO.HIGH)
 
 # Screen setup
 cs_pin = digitalio.DigitalInOut(board.CE0)
@@ -19,12 +24,38 @@ reset_pin = digitalio.DigitalInOut(board.D27)
 BAUDRATE = 24000000
 spi = board.SPI()
 disp = ili9341.ILI9341(
-    spi, cs=cs_pin, dc=dc_pin, rst=reset_pin, baudrate=BAUDRATE, width=240, height=320
+    spi, cs=cs_pin, dc=dc_pin, rst=reset_pin, baudrate=BAUDRATE, width=240, height=320, rotation=180
 )
 
 # Load and prepare QR code image
-image_path = 'qr-code-unlock.png'  # Adjust path as needed
-qr_image = Image.open(image_path)
+#image_path = 'qr-code-unlock.png'  # Adjust path as needed
+#qr_image = Image.open(image_path)
+qr_image = None
+class ImageParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.image_data = None
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img":
+            for attr in attrs:
+                if attr[0] == "src" and attr[1].startswith("data:image/png;base64,"):
+                    self.image_data = attr[1].split(",")[1]
+try:
+    response = requests.get("https://copwatch-api-test-9c567e874ba4.herokuapp.com/generate_qr")
+    response.raise_for_status()
+
+    parser = ImageParser()
+    parser.feed(response.text)
+
+    if parser.image_data:
+        image_data = base64.b64decode(parser.image_data)
+        qr_image = Image.open(BytesIO(image_data))
+        #qr_image.show()
+    else:
+        print("No image data found in the response.")
+except requests.RequestException as e:
+    print(f"An error occurred: {e}")
 aspect_ratio = qr_image.width / qr_image.height
 
 # Increase the height of the QR code, for example, 3/4th of the display height
@@ -102,7 +133,14 @@ def update_screen(display, qr, text, message):
     display.image(combined_image)
 
 def check_code(input_code):
-    return input_code == "1234"
+    try:
+        response = requests.get("https://copwatch-api-test-9c567e874ba4.herokuapp.com/get_code")
+        response.raise_for_status()  # This will raise an error for HTTP error responses
+        data = response.json()
+        return int(input_code) == int(data["fourDigitCode"])
+    except requests.RequestException as e:
+        print(f"An error occurred: {e}")
+        return False
 
 # Initialize text with underscores
 text = "_ _ _ _"

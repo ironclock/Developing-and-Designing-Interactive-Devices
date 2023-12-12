@@ -1,31 +1,26 @@
-import RPi.GPIO as GPIO
+from gpio import GPIOController
 import time
 
-GPIO.setmode(GPIO.BCM)
-PIN = 23
+def main():
+    gpio_controller = GPIOController(pin=23)
 
-GPIO.setup(PIN, GPIO.OUT)
+    try:
+        while True:
+            # Turn the pin high
+            gpio_controller.set_high()
+            time.sleep(2)  # Wait for 2 seconds
 
-# Initially set the pin to LOW
-GPIO.output(PIN, GPIO.LOW)
-time.sleep(2)  # Wait 2 seconds
+            # Turn the pin low
+            gpio_controller.set_low()
+            time.sleep(2)  # Wait for 2 seconds
 
-try:
-    while True:
-        # Explicitly set the pin to HIGH
-        GPIO.output(PIN, GPIO.HIGH)
-        print("GPIO pin 23 set to HIGH")
-        time.sleep(2)
+    except KeyboardInterrupt:
+        print("Exiting loop.")
 
-        # Explicitly set the pin to LOW
-        GPIO.output(PIN, GPIO.LOW)
-        print("GPIO pin 23 set to LOW")
-        time.sleep(2)
+    finally:
+        # Clean up at the end
+        gpio_controller.cleanup()
 
-except KeyboardInterrupt:
-    print("Exiting loop.")
+if __name__ == "__main__":
+    main()
 
-finally:
-    # Clean up at the end
-    GPIO.cleanup()
-    print("GPIO cleaned up.")
