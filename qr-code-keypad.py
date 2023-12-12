@@ -243,12 +243,12 @@ while True:
                 # Check code and display result
                 if check_code(inputted_code):
                     message = "Success!"
+                    colorWipeThreaded(Color(255, 255, 255))
                     update_screen(disp, qr_image, text, message)
                     GPIO.output(PIN, GPIO.LOW)  # Unlock
-                    pulseBlue()  # Pulse blue when unlocked
                     time.sleep(5)  # Wait for 5 seconds
                     GPIO.output(PIN, GPIO.HIGH)  # Lock
-                    colorWipe(Color(255, 0, 0))  # Turn red when locked
+                    colorWipeThreaded(Color(255, 0, 0))  # Turn red when locked
                     text = "_ _ _ _"
                     input_count = 0
                     message = ""
