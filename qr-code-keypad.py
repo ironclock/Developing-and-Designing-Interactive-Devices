@@ -10,6 +10,38 @@ import requests
 from io import BytesIO
 from html.parser import HTMLParser
 import base64
+from rpi_ws281x import PixelStrip, Color  # Import for LED strip
+
+# LED strip configuration
+LED_COUNT = 30  # Number of LED pixels
+LED_PIN = 21  # GPIO pin connected to the pixels
+LED_FREQ_HZ = 800000  # LED signal frequency in hertz
+LED_DMA = 10  # DMA channel to use for generating signal
+LED_BRIGHTNESS = 255  # Set brightness (0 to 255)
+LED_INVERT = False  # True to invert the signal
+
+# Create PixelStrip object
+strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
+strip.begin()
+
+# Function to control the light strip
+def colorWipe(color, wait_ms=50):
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, color)
+        strip.show()
+        time.sleep(wait_ms/1000.0)
+
+# Function to pulse blue light
+def pulseBlue(wait_ms=500, iterations=10):
+    for j in range(iterations):
+        # Fade in
+        for i in range(0, 256, 5):
+            colorWipe(Color(0, 0, i), wait_ms)
+        # Fade out
+        for i in range(255, 0, -5):
+            colorWipe(Color(0, 0, i), wait_ms)
+
+
 
 #GPIO setup
 GPIO.setmode(GPIO.BCM)
@@ -183,9 +215,11 @@ while True:
                 if check_code(inputted_code):
                     message = "Success!"
                     update_screen(disp, qr_image, text, message)
-                    GPIO.output(PIN, GPIO.LOW)
+                    GPIO.output(PIN, GPIO.LOW)  # Unlock
+                    pulseBlue()  # Pulse blue when unlocked
                     time.sleep(5)  # Wait for 5 seconds
-                    GPIO.output(PIN, GPIO.HIGH)
+                    GPIO.output(PIN, GPIO.HIGH)  # Lock
+                    colorWipe(Color(255, 0, 0))  # Turn red when locked
                     text = "_ _ _ _"
                     input_count = 0
                     message = ""
