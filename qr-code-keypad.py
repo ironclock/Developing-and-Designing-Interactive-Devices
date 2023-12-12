@@ -11,6 +11,7 @@ from io import BytesIO
 from html.parser import HTMLParser
 import base64
 from rpi_ws281x import PixelStrip, Color  # Import for LED strip
+import threading
 
 # LED strip configuration
 LED_COUNT = 30  # Number of LED pixels
@@ -24,24 +25,49 @@ LED_INVERT = False  # True to invert the signal
 strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS)
 strip.begin()
 
+locked = True
+
 # Function to control the light strip
-def colorWipe(color, wait_ms=50):
-    for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color)
-        strip.show()
-        time.sleep(wait_ms/1000.0)
+# def colorWipe(color, wait_ms=50):
+#     for i in range(strip.numPixels()):
+#         strip.setPixelColor(i, color)
+#         strip.show()
+#         time.sleep(wait_ms/1000.0)
 
-# Function to pulse blue light
-def pulseBlue(wait_ms=500, iterations=10):
-    for j in range(iterations):
-        # Fade in
-        for i in range(0, 256, 5):
-            colorWipe(Color(0, 0, i), wait_ms)
-        # Fade out
-        for i in range(255, 0, -5):
-            colorWipe(Color(0, 0, i), wait_ms)
+# # Function to pulse blue light
+# def pulseBlue(wait_ms=500, iterations=10):
+#     for j in range(iterations):
+#         # Fade in
+#         for i in range(0, 256, 5):
+#             colorWipe(Color(0, 0, i), wait_ms)
+#         # Fade out
+#         for i in range(255, 0, -5):
+#             colorWipe(Color(0, 0, i), wait_ms)
 
+# def colorWipeTwo(strip, color, wait_ms=50):
+#     for i in range(strip.numPixels()):
+#         strip.setPixelColor(i, color)
+#         strip.show()
+#         time.sleep(wait_ms/1000.0)
 
+def colorWipeThreaded(color):
+    def run():
+        for i in range(strip.numPixels()):
+            strip.setPixelColor(i, color)
+            strip.show()
+            time.sleep(50/1000.0)
+    threading.Thread(target=run).start()
+
+def pulseBlueThreaded():
+    def run():
+        for j in range(10):
+            # Fade in
+            for i in range(0, 256, 5):
+                colorWipe(Color(0, 0, i), 500)
+            # Fade out
+            for i in range(255, 0, -5):
+                colorWipe(Color(0, 0, i), 500)
+    threading.Thread(target=run).start()
 
 #GPIO setup
 GPIO.setmode(GPIO.BCM)
@@ -182,6 +208,9 @@ update_screen(disp, qr_image, text, message)
 # Main loop
 input_count = 0
 while True:
+
+    # colorWipe(Color(255, 0, 0))  # Turn red when locked
+    colorWipeThreaded(Color(255, 0, 0, 0))
     myKeypad.update_fifo()
     button = myKeypad.get_button()
 
