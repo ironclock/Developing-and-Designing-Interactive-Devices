@@ -30,7 +30,7 @@ So, whether you're in the middle of your homecity exploring or stranded somewher
 
 ## Objective
 
-Our objective for this Final IDD Project was to collborate our team's Startup Studio idea (PeePass) with Interactive devices. Specifically, developing the _proprietary locking mechanism_ discussed before. Our idea is to create a 3D miniature bathroom setting which would *simulate* the user journey of someone using PeePass. Our model would include a life size lock on the 'door' that would unlock using the PeePass app and QR code display/Numpad connected to our Raspberry Pi. Most importantly, to spice up our project, we plan to include lasers that are active inside the bathroom when the door is locked and are then deactivated when the door is unlocked.
+Our objective for this Final IDD Project was to collborate our team's Startup Studio idea (PeePass) with Interactive devices. Specifically, developing the _proprietary locking mechanism_ discussed before. Our idea is to create a 3D miniature bathroom setting which would *simulate* the user journey of someone using PeePass. Our model would include a life size lock on the 'door' that would unlock using the PeePass app and QR code display/Numpad connected to our Raspberry Pi. Most importantly, to spice up our project, we plan to include LED lights that are indicated as "active" inside the bathroom when the door is locked and are then "deactivated" when the door is unlocked.
 
 ### Project Plan:
 
@@ -130,7 +130,10 @@ We wanted to emulate the genuine PeePass experience as closely as possible, even
 2. **Ngrok for External Access:** Because we needed the URL to be accessed from anywhere we used a tool called Ngrok. Ngrok is a tool that creates a secure tunnel to our local server (raspberry pi), allowing it to be accessible over the internet. By using Ngrok, we expose the Flask server running on our Raspberry Pi to the wider internet, making it reachable from outside the local network.
 
 3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of our externally accessible server (via Ngrok). The authentication aspect changes every 10 seconds - making the 4 digit pin dynamic, enhancing security.
+<br>
 
+Backend Code (separate repo): 
+<br>
 4. **iOS App with Camera access:** We also developed a main portion of our Startup's functionaluity - the PeePass app. Our iPhone app was created using Swift and has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction.
    
 App Screens: <br>
@@ -138,8 +141,12 @@ App Screens: <br>
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ff359c04-f320-457c-a243-af72b5d804cd">
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/564d32eb-1651-428f-a5e0-7ec27e6f2f0f">
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/82b8fd32-ed3d-4789-9152-f5b497273fa7">
+<br>
 
+App Code (separate repo): 
+<br>
 6. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
+
 
 7. **Unlocking with the Numpad:** We wanted to ensure that users who deny camera access or don't have camera access would still be able to enter our restrooms and therefore have included number pad functionality in our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a users only enters 3 digits etc.
 
