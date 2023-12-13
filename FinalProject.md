@@ -207,7 +207,7 @@ Assuming the pi and battery pack are switched on and connected we could activate
 
 
 ### Video of someone using your project
-Tester 1 QR code scanning: https://drive.google.com/file/d/1FzVY35NVeGY-c9ZiwQehVA4Trht1vIbs/view?usp=sharing <br>
+Tester 1 QR code: https://drive.google.com/file/d/1FzVY35NVeGY-c9ZiwQehVA4Trht1vIbs/view?usp=sharing <br>
 Tester 1 Numpad: https://drive.google.com/file/d/1DlFcqzbd0bZPgmUwvwLMCQimQa79D5_u/view?usp=sharing <br>
 
 Tester 2 QR code: https://drive.google.com/file/d/1CyDf-W70vyI3BW5c2ApU3LobhNvm-waA/view?usp=sharing<br>
