@@ -127,11 +127,11 @@ We wanted to emulate the genuine PeePass experience as closely as possible, even
 
 1. **Raspberry Pi runs a Flask Script:** The Raspberry Pi, is running a Python script that utilizes Flask. In this case, the script creates a local web server accessible within our local network. At this point - the QR code was accessible locally, which is not enough when accessing the QR code through anyones phone ([Video: Local is a Go!](https://drive.google.com/file/d/16IOC8wSJXLmvBi9g8AYsVX0Kvxjibdx3/view?usp=share_link)) 
 
-2. **Ngrok for External Access:** Because we needed the URL to be accessed from anywhere we used this nifty tool called Ngrok. Ngrok is a tool that creates a secure tunnel to our local server (raspberry pi), allowing it to be accessible over the internet. By using Ngrok, we expose the Flask server running on our Raspberry Pi to the wider internet, making it reachable from outside the local network.
+2. **Ngrok for External Access:** Because we needed the URL to be accessed from anywhere we used a tool called Ngrok. Ngrok is a tool that creates a secure tunnel to our local server (raspberry pi), allowing it to be accessible over the internet. By using Ngrok, we expose the Flask server running on our Raspberry Pi to the wider internet, making it reachable from outside the local network.
 
-3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of your externally accessible server (via Ngrok).
+3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of our externally accessible server (via Ngrok). The authentication aspect changes every 10 seconds - making the 4 digit pin dynamic, enhancing security.
 
-4. **iOS App with Camera access:** We also developed a basic iPhone app using Swift that has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction.
+4. **iOS App with Camera access:** We also developed a main portion of our Startup's functionaluity - the PeePass app. Our iPhone app was created using Swift and has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction.
    
 App Screens: <br>
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/64ed78d3-a14d-4902-a103-9d7869715a6a">
@@ -141,17 +141,23 @@ App Screens: <br>
 
 6. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
 
-7. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
+7. **Unlocking with the Numpad:** We wanted to ensure that users who deny camera access or don't have camera access would still be able to enter our restrooms and therefore have included number pad functionality in our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a users only enters 3 digits etc.
 
 <img width="452" alt="Screen Shot 2023-12-13 at 11 22 38 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/cb7536d2-7fc7-4642-909f-a8e6348eb783">
 
 ##### Physical Pieces of the Puzzle
 
-1. **Restroom structure:** We had origianlly thought to 3D print the entire restroom and leave a wooden door but that turned out to be hard than anticipated. Instead we bought wood for all the walls and door. After assembling this structure, we decided acryllic walls would make for a more aethstetic appearance.
-
-2. **Fashioning the Pi:** We created a 'drop floor' to hide the pi in the restroom structure while ensuring the lock relay and battery pack remained connected.
+1. **Restroom structure:** We had origianlly thought to 3D print the entire restroom and include only a wooden door but that turned out to be harder than anticipated. Instead we bought wood for all the walls and door. After assembling this structure, we decided acryllic walls would make for a more aethstetic appearance.
    
-3.
+2. **Installing the lock:** The lock we are using is life size and fully functional, therefore in comparison with the rest of the structure, it's 'strength' is significantly more. Becasue of this needed to include reinforcements for the structure so that it's possible for users to open the door without toppling over the rest of the structure. To install the lock -  we did some fancy woodworking and got the lock flushed with the wooden support beam.
+   
+3. **Fashioning the Pi:** We created a 'drop floor' to hide the pi in the restroom structure while ensuring the lock relay and battery pack remained connected.
+   
+4. **3D printed assets:** We 3D printed the indoor decor for our bathroom panorama to make the experience more 'realistic'. We added some modern art into the restroom as well to make for an elevated restroom experience.
+
+5. **Attaching the Numpad and Big Screen:** Because we were dealing with a wooden beam, it was hard to embed the sensor and display into the beam while ensuring the projec looked tidy. Instead we opted to mount the sensor and numpad on the face of the beam - which required some homemade standoff screws.
+   
+6. **Lights:** Another mechanism for user feedback we included was a strip of LED lights. These lights remain red as long as the restroom is locked and turn to white flickering when a user unlocks the restroom.
 
 #### Running/Testing the App + QR code
 
@@ -189,11 +195,6 @@ Assuming the pi and battery pack are switched on and connected we could activate
 🎉 Tada - navigate to the TestFlight App and scan QR
 </aside>
 
-#### Pivots
-We started development with compiling a list of sensors/components needed. In making this list we also considered the GPIO pins we had available and the amout of power needed to effect our sensors. With that, we bought the various items that we did not have including an NFC Scanner, a lock, a relay switch, a VERY large battery pack, and a larger display screen. 
-
-Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
-
 #### Photo Gallery
 ||||
 |:-------------------------:|:-------------------------:|:-------------------------:|
@@ -212,20 +213,24 @@ Tester 1 Numpad: https://drive.google.com/file/d/1DlFcqzbd0bZPgmUwvwLMCQimQa79D5
 Tester 2 QR code: https://drive.google.com/file/d/1CyDf-W70vyI3BW5c2ApU3LobhNvm-waA/view?usp=sharing<br>
 Tester 2 Numpad: https://drive.google.com/file/d/1bTgm4f_zwwlQ7qwlcOBsBX1oiJ3o3LP0/view?usp=sharing<br>
 
-### Reflections on process
-In the course of developing our project, the collaborative process was enjoyable (as per usual with this team), fostering a strong sense of teamwork among the group. The camaraderie we shared during the project and semester overall not only made the journey memorable but also made for creative problem-solving and effective communication practice.
+### Reflections and Pivots
+In the course of developing our project, the collaborative process was enjoyable (as per usual with this team), fostering a strong sense of teamwork among the group. The camaraderie we shared during the project and semester overall not only made the journey memorable but also made for creative problem-solving and effective communication environment.
 
-However, as with any project, we encountered challenges, specifically in the implementation of the NFC reader and the physical assembly of our miniature model. In hindsight, we underestimated the complexity of door locking mechanisms, both in terms of the lock itself and the intricate latch system. This oversight led to a lack of preparedness in our engineering approach.
+However, as with any project, we encountered challenges, specifically in the implementation of the NFC reader and the physical assembly of our miniature model. In hindsight, we underestimated the complexity of door locking mechanisms, both in terms of the lock itself and the intricate latch system. This oversight led to some ad hoc solutions.
+
+Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
 
 Furthermore, our oversight extended to the physical materials used in the construction of the door. We failed to fully consider the intricate balance between functionality and aesthetics, which affected the overall design and usability of our project. A key lesson learned was the importance of thorough pre-planning, not only in terms of engineering considerations but also in selecting materials that align with both functionality and aesthetic goals.
 
-Also, understanding the limitations of physical materials was something that came up often in our process as well. **For one, the various hardware components that we were using shared lots of busses etc, causing for lag in one component or complete failure.** Another example is that, as a finishing touch on our bathroom design we had added tinsel to the door frame for a little party action. While the bathroom panorama looked great, the relay for the lock was not activating while it was working the whole day. We knew the problem could not be the code, and started looking into various hardware pieces that could be the problem. We then realized that tinsel is conductive and may be interfering with a component, unknowingly causing circuit shorts in the other components. At that point we said goodbye to the tinsle and viola - all the components worked again.
+Also, understanding the limitations of hardware compatibility materials was something that came up often in our process as well. For one, we encountered some sporadic Qwiic Keypad Issues specifically a recurring "Remote I/O error" that caused the controlling script to stop unexpectedly. We intially thought the issue had something to do with the actual keypad and swapped ours out for a new one, tried a new cable, tried a new shim but after seeing that the problem persisted we figured the issue was not a flaw in the hardware. After searching for potential causes online we found a review on Sparkfun's website where a user experienced a similar issue. We finally were able to identify the problem as related to the keypad’s limited bus speed of 100kbit/second, potentially conflicting with other components sharing the same bus but operating at higher speeds.The approach to our solution was reconfigure two GPIO pins to create an additional bus with a limited speed of 100kbit/sec and then connect the keypad to these newly configured pins. We then investigated the `qwiic_keypad` library and modified a line of code that set the bus number to match our newly configured bus. This successfully resolved the connection issues with the Qwiic Keypad and bus speeds. This was one example of the importance of understanding hardware compatibility, particularly in terms of communication protocols and bus speeds. By methodically troubleshooting and modifying software configurations, we were able to overcome a challenging hardware-software interaction issue.
 
-Reflecting on our experience, we recognize the need for a more thoughtful approach to design. For future iterations, we would opt for a life-size door handle and a custom-sized laser-cut acrylic or wooden box. This adjustment would not only enhance functionality but also contribute to a cleaner and more visually appealing aesthetic.
+A smaller more physical issue we faced was that, as a finishing touch on our bathroom design we had added tinsel to the door frame for a little party action. While the bathroom panorama looked great, the relay for the lock was not activating while it was working the whole day. We knew the problem could not be the code, and started looking into various hardware pieces that could be the problem. We then realized that tinsel is conductive and may be interfering with a component, unknowingly causing circuit shorts in the other components. At that point we said goodbye to the tinsle and viola - all the components worked again.
+
+Reflecting on our experience, we recognize the need for a thouroughly fleshed out approach to designing hardware. For future iterations, we would opt for a life-size door handle and a custom-sized laser-cut acrylic or wooden box - confirming the setup and layout of the components earlier on. This adjustment would not only enhance functionality but also contribute to a cleaner and more visually appealing aesthetic.
 
 Moreover, acknowledging the challenges we faced with the NFC reader, we now realize the value of prioritizing efficiency. In a hypothetical redo, we would streamline our efforts by opting for a QR code scanner instead of investing time in resolving issues with the NFC reader. This strategic decision would allow us to allocate time and resources more effectively, focusing on aspects of the project where we could achieve greater success.
 
-In essence, our project journey was marked by both triumphs and challenges. The insights gained from this experience will undoubtedly guide us toward more informed decision-making and meticulous planning in future endeavors, ultimately contributing to the continuous improvement of our collaborative efforts.
+In essence, our project journey was marked by both triumphs and challenges. What we gained from this experience will undoubtedly guide us toward more informed decision-making and meticulous planning in future endeavors, ultimately contributing to the continuous improvement of our collaborative efforts.
 
 ### Group work distribution
 
