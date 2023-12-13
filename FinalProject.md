@@ -91,8 +91,8 @@ We are hopeful that the NFC reader will be compatible with Apple NFC tokens but 
 
 ### Functioning Project:
 
-Project view: https://drive.google.com/file/d/1GehffDm9t65VjD8sZKnVWR6-5UkuFXEK/view?usp=sharing
-Functioning project in use: https://drive.google.com/file/d/1shWUXQ4ZxUWaTMsXuufOiYjUlLCXqeNt/view?usp=sharing
+Project view: https://drive.google.com/file/d/1GehffDm9t65VjD8sZKnVWR6-5UkuFXEK/view?usp=sharing <br>
+Functioning project in use: https://drive.google.com/file/d/1shWUXQ4ZxUWaTMsXuufOiYjUlLCXqeNt/view?usp=sharing <br>
 
 ### Design Process:
 We wanted to include thorough documentation of our design process (for documentation purposes and to look back at the fun that we had!)
@@ -206,11 +206,11 @@ Originally we had planned to use an NFC scanner to validate entrance into the re
 
 
 ### Video of someone using your project
-Tester 1 QR code scanning: https://drive.google.com/file/d/1FzVY35NVeGY-c9ZiwQehVA4Trht1vIbs/view?usp=sharing
-Tester 1 Numpad: https://drive.google.com/file/d/1DlFcqzbd0bZPgmUwvwLMCQimQa79D5_u/view?usp=sharing
+Tester 1 QR code scanning: https://drive.google.com/file/d/1FzVY35NVeGY-c9ZiwQehVA4Trht1vIbs/view?usp=sharing <br>
+Tester 1 Numpad: https://drive.google.com/file/d/1DlFcqzbd0bZPgmUwvwLMCQimQa79D5_u/view?usp=sharing <br>
 
-Tester 2 QR code: https://drive.google.com/file/d/1CyDf-W70vyI3BW5c2ApU3LobhNvm-waA/view?usp=sharing
-Tester 2 Numpad: https://drive.google.com/file/d/1bTgm4f_zwwlQ7qwlcOBsBX1oiJ3o3LP0/view?usp=sharing
+Tester 2 QR code: https://drive.google.com/file/d/1CyDf-W70vyI3BW5c2ApU3LobhNvm-waA/view?usp=sharing<br>
+Tester 2 Numpad: https://drive.google.com/file/d/1bTgm4f_zwwlQ7qwlcOBsBX1oiJ3o3LP0/view?usp=sharing<br>
 
 ### Reflections on process
 In the course of developing our project, the collaborative process was enjoyable (as per usual with this team), fostering a strong sense of teamwork among the group. The camaraderie we shared during the project and semester overall not only made the journey memorable but also made for creative problem-solving and effective communication practice.
