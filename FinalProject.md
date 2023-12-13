@@ -1,6 +1,6 @@
 # IDD Final Project
 
-## Team Members ("Ze Cool Group")
+## Team Members
 
 Shai Aarons (sla88) - "The Bacchanalian" 🕺
 
@@ -90,7 +90,9 @@ _Note:_ This project plan was created at the start of our project before we pivo
 We are hopeful that the NFC reader will be compatible with Apple NFC tokens but if that does not work, we will use a QR code to unlock the door through a user's phone camera on the app. Additionally, right now we are planning on 3D printing the entire 3D restroom but if it's too complicated to build a 3D model with the lock dimensions embedded, we will opt for wood or some other material for the structure.
 
 ### Functioning Project:
-TODO
+
+Project view: https://drive.google.com/file/d/1GehffDm9t65VjD8sZKnVWR6-5UkuFXEK/view?usp=sharing
+Functioning project in use: https://drive.google.com/file/d/1shWUXQ4ZxUWaTMsXuufOiYjUlLCXqeNt/view?usp=sharing
 
 ### Design Process:
 We wanted to include thorough documentation of our design process (for documentation purposes and to look back at the fun that we had!)
@@ -121,11 +123,6 @@ We wanted to emulate the genuine PeePass experience as closely as possible, even
 
 <img width="400" height="400" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/5cdc86e2-e42b-427d-ad70-8a02752db811">
 
-#### Development/Pivots
-We started development with compiling a list of sensors/components needed. In making this list we also considered the GPIO pins we had available and the amout of power needed to effect our sensors. With that, we bought the various items that we did not have including an NFC Scanner, a lock, a relay switch, a VERY large battery pack, and a larger display screen. 
-
-Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
-
 ##### Tech Pieces of the Puzzle:
 
 1. **Raspberry Pi runs a Flask Script:** The Raspberry Pi, is running a Python script that utilizes Flask. In this case, the script creates a local web server accessible within our local network. At this point - the QR code was accessible locally, which is not enough when accessing the QR code through anyones phone ([Video: Local is a Go!](https://drive.google.com/file/d/16IOC8wSJXLmvBi9g8AYsVX0Kvxjibdx3/view?usp=share_link)) 
@@ -134,19 +131,27 @@ Originally we had planned to use an NFC scanner to validate entrance into the re
 
 3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of your externally accessible server (via Ngrok).
 
-4. **iOS App with Camera access:** We also developed a basic iPhone app using Swift that has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction. 
+4. **iOS App with Camera access:** We also developed a basic iPhone app using Swift that has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction.
+   
+App Screens: <br>
+<img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/64ed78d3-a14d-4902-a103-9d7869715a6a">
+<img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ff359c04-f320-457c-a243-af72b5d804cd">
+<img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/564d32eb-1651-428f-a5e0-7ec27e6f2f0f">
+<img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/82b8fd32-ed3d-4789-9152-f5b497273fa7">
 
-5. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
+6. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
 
-6. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
+7. **Unlocking with the Numpad:** We wanted to ensure that users without camera access would still be able to enter our restrooms and therefore have included number pad functionality to our unlocking mechanism as well. The app displays a 4 digit pin (that's recevied from the app backend) which the user can input into the numpad and see their input on the QR code display. This input field has error handling as well, in case a user only enters 3 digits etc.
+
+<img width="452" alt="Screen Shot 2023-12-13 at 11 22 38 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/cb7536d2-7fc7-4642-909f-a8e6348eb783">
 
 ##### Physical Pieces of the Puzzle
 
 1. **Restroom structure:** We had origianlly thought to 3D print the entire restroom and leave a wooden door but that turned out to be hard than anticipated. Instead we bought wood for all the walls and door. After assembling this structure, we decided acryllic walls would make for a more aethstetic appearance.
 
-2. **Storing the Pi:** We created a 'drop floor' to hide the pi in the restroom structure while ensuring the lock relay and battery pack remained connected.
+2. **Fashioning the Pi:** We created a 'drop floor' to hide the pi in the restroom structure while ensuring the lock relay and battery pack remained connected.
    
-3. 
+3.
 
 #### Running/Testing the App + QR code
 
@@ -184,32 +189,37 @@ Assuming the pi and battery pack are switched on and connected we could activate
 🎉 Tada - navigate to the TestFlight App and scan QR
 </aside>
 
+#### Pivots
+We started development with compiling a list of sensors/components needed. In making this list we also considered the GPIO pins we had available and the amout of power needed to effect our sensors. With that, we bought the various items that we did not have including an NFC Scanner, a lock, a relay switch, a VERY large battery pack, and a larger display screen. 
+
+Originally we had planned to use an NFC scanner to validate entrance into the restroom (using iOS NFC tokens). When we started to work on it, we realized this sensor was more complicated than we thought. The NFC scanner that we had was not working as expected and the pi was not complying with our requests. We tried various NFC Scanners (thinking that our scanner came broken at first) but could not get the NFC scanner to interact with our iOS NFC token. Instead we opted for QR code authentication. Now, a user would open their app to scan a QR code (the app accesses the phone camera) which would instigate the unlocking mechanism and the user would be able to access the restroom. 
+
 #### Photo Gallery
-
-
-
-
-
-
-
-
-
-| | | |
+||||
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="528" alt="Screen Shot 2023-12-08 at 3 23 25 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/6919169a-5f44-45d0-bcfb-bf7dcd53a48a"> |<img width="528" alt="Screen Shot 2023-12-08 at 3 22 48 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/186b15cb-27ba-4819-bf32-e23f6ed97cd3">|<img width="528" alt="Screen Shot 2023-12-08 at 3 29 33 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/3e9c4d08-fb84-4cb8-a8d9-6adb29f309c8">|
-<img width="528" alt="Screen Shot 2023-12-08 at 3 29 45 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/bc281684-0ded-4a7a-b466-293f3e1f251d">|<img width="528" alt="Screen Shot 2023-12-08 at 3 29 58 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/e5a09e61-fb87-482f-b908-20188dc5333e">|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 12 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ac385088-acaa-49be-ac68-87b67d427ccd">|<img width="528" alt="screen shot 2017-08-07 at 12 18 15 pm" src="https://github.com/ironclock/Interactive-Lab-Hub/assets/82296790/2004a071-6685-492d-b4c8-51b23ce573e2">|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 28 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ed00a457-27fa-4789-a96d-1260391f2fff">
-|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 20 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/fa278dd8-4fb6-424e-b708-8f997e6fb1da"> |<img width="528" alt="Screen Shot 2023-12-08 at 3 30 28 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/7396e38e-7eb8-4761-bef0-90535292a7d6">||
-| | 
+<img width="528" alt="Screen Shot 2023-12-08 at 3 29 45 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/bc281684-0ded-4a7a-b466-293f3e1f251d">|<img width="528" alt="Screen Shot 2023-12-08 at 3 29 58 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/e5a09e61-fb87-482f-b908-20188dc5333e">|<img width="528" alt="Screen Shot 2023-12-08 at 3 30 12 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ac385088-acaa-49be-ac68-87b67d427ccd">|
+<img width="528" alt="Screen Shot 2023-12-08 at 3 30 20 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/fa278dd8-4fb6-424e-b708-8f997e6fb1da"> |
+<img width="528" alt="Screen Shot 2023-12-08 at 3 30 28 PM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/7396e38e-7eb8-4761-bef0-90535292a7d6">|<img width="528" alt="Screen Shot 2023-12-13 at 11 54 41 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/cb903af0-ead4-4529-9c5e-1756146a0c31">|<img width="528" alt="Screen Shot 2023-12-13 at 11 54 56 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/4b10022e-482b-4c70-8993-846b32f69fc6">|
+<img width="528" alt="Screen Shot 2023-12-13 at 11 55 07 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/e8e4eb5b-7b7f-4a85-a5b7-ce530e7dc6e2">|<img width="528" alt="Screen Shot 2023-12-13 at 11 55 25 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/83c8ebd9-3fe0-42cf-9c01-65f522fcbef2">|<img width="528" alt="Screen Shot 2023-12-13 at 11 55 36 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/a99391b3-548b-4a05-bd41-c551a00c0b1d">|
+<img width="528" alt="Screen Shot 2023-12-13 at 11 55 43 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/be940d7f-0407-4c62-9b26-ad0e462909ac">|<img width="528" alt="Screen Shot 2023-12-13 at 11 55 56 AM" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/594b6553-a7f6-47ee-963f-c08b7baa82fc">|
 
 
 ### Video of someone using your project
+Tester 1 QR code scanning: https://drive.google.com/file/d/1FzVY35NVeGY-c9ZiwQehVA4Trht1vIbs/view?usp=sharing
+Tester 1 Numpad: https://drive.google.com/file/d/1DlFcqzbd0bZPgmUwvwLMCQimQa79D5_u/view?usp=sharing
 
-### Reflections on process (What have you learned or wish you knew at the start?)
+Tester 2 QR code: https://drive.google.com/file/d/1CyDf-W70vyI3BW5c2ApU3LobhNvm-waA/view?usp=sharing
+Tester 2 Numpad: https://drive.google.com/file/d/1bTgm4f_zwwlQ7qwlcOBsBX1oiJ3o3LP0/view?usp=sharing
+
+### Reflections on process
 In the course of developing our project, the collaborative process was enjoyable (as per usual with this team), fostering a strong sense of teamwork among the group. The camaraderie we shared during the project and semester overall not only made the journey memorable but also made for creative problem-solving and effective communication practice.
 
 However, as with any project, we encountered challenges, specifically in the implementation of the NFC reader and the physical assembly of our miniature model. In hindsight, we underestimated the complexity of door locking mechanisms, both in terms of the lock itself and the intricate latch system. This oversight led to a lack of preparedness in our engineering approach.
 
 Furthermore, our oversight extended to the physical materials used in the construction of the door. We failed to fully consider the intricate balance between functionality and aesthetics, which affected the overall design and usability of our project. A key lesson learned was the importance of thorough pre-planning, not only in terms of engineering considerations but also in selecting materials that align with both functionality and aesthetic goals.
+
+Also, understanding the limitations of physical materials was something that came up often in our process as well. **For one, the various hardware components that we were using shared lots of busses etc, causing for lag in one component or complete failure.** Another example is that, as a finishing touch on our bathroom design we had added tinsel to the door frame for a little party action. While the bathroom panorama looked great, the relay for the lock was not activating while it was working the whole day. We knew the problem could not be the code, and started looking into various hardware pieces that could be the problem. We then realized that tinsel is conductive and may be interfering with a component, unknowingly causing circuit shorts in the other components. At that point we said goodbye to the tinsle and viola - all the components worked again.
 
 Reflecting on our experience, we recognize the need for a more thoughtful approach to design. For future iterations, we would opt for a life-size door handle and a custom-sized laser-cut acrylic or wooden box. This adjustment would not only enhance functionality but also contribute to a cleaner and more visually appealing aesthetic.
 
@@ -219,12 +229,4 @@ In essence, our project journey was marked by both triumphs and challenges. The 
 
 ### Group work distribution
 
-## Grading rubric
-
-20% Project planning: Allocation of needed resources (time, people, materials, facilities) anticipated well.
-20% Design of project: Interaction, hardware and software aspects of projects planned well.
-20% Testing of project: Functional or wizarded system tested with people
-20% Prototype functionality: System capable of interaction, either through autonomous or wizarded mechanisms
-20% Project documentation: Text, video, and photo of project illustratign capability and documenting plans and process
-
-
+The development of PeePass was a collaborative effort that saw each team member contributing their unique skills and expertise to create a comprehensive and functional system. **Jon**, with his full-stack capabilities, took charge of setting up the app from both frontend and backend perspectives. He implemented a robust API for authentication, integrated a QR code scanner, ensured lock and relay compatibility, and even undertook hands-on tasks like installing lock hardware, woodwork, hardware assembly, lights setup, and panorama arrangement. **Amando** played a pivotal role in hardware implementation, focusing on numpad input, error handling, and acting as the wire master. Amando's troubleshooting skills were instrumental in resolving hardware issues. **Shai**, the CEO of the startup, provided visionary leadership, collaborating with Ariana on the PeePass app frontend, introducing dynamic lights, and infusing the team with positive energy and innovative ideas. **Ariana**, the frontend maestro, enhanced the user interface, 3D printed bathroom assets, assisted in installing the physical lock in the model, and played a key role in arranging the panorama setup. **Rachel**, the documentation expert, not only led the documentation process but also contributed creatively through laser-cut decor and engineering problem-solving during panorama assembly. Together, the team's collective efforts resulted in the successful and multifaceted development of the PeePass proprietatry lock.
