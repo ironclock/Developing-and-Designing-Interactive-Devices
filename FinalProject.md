@@ -130,10 +130,7 @@ We wanted to emulate the genuine PeePass experience as closely as possible, even
 2. **Ngrok for External Access:** Because we needed the URL to be accessed from anywhere we used a tool called Ngrok. Ngrok is a tool that creates a secure tunnel to our local server (raspberry pi), allowing it to be accessible over the internet. By using Ngrok, we expose the Flask server running on our Raspberry Pi to the wider internet, making it reachable from outside the local network.
 
 3. **QR Code Display**: The Raspberry Pi generates and displays a QR code through our coded Express.js backend. This QR code encodes a URL, which is the address of our externally accessible server (via Ngrok). The authentication aspect changes every 10 seconds - making the 4 digit pin dynamic, enhancing security.
-<br>
 
-Backend Code (separate repo): https://github.com/ironclock/idd-backend
-<br>
 4. **iOS App with Camera access:** We also developed a main portion of our Startup's functionaluity - the PeePass app. Our iPhone app was created using Swift and has access to the phone's camera. When the camera scans the QR code displayed by the Raspberry Pi, it reads the encoded URL which then leads to API interaction.
    
 App Screens: <br>
@@ -141,10 +138,7 @@ App Screens: <br>
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/ff359c04-f320-457c-a243-af72b5d804cd">
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/564d32eb-1651-428f-a5e0-7ec27e6f2f0f">
 <img width="200" alt="door sketch" src="https://github.com/ironclock/Developing-and-Designing-Interactive-Devices/assets/82296790/82b8fd32-ed3d-4789-9152-f5b497273fa7">
-<br>
 
-App Code (separate repo): https://github.com/ironclock/peepass-nfc-scanner
-<br>
 6. **API Interaction:** Upon scanning the QR code, the iOS app makes a GET request to the URL encoded in the QR code. This URL points to an API hosted on Heroku, a cloud platform service that enables deployment and running of applications. The Heroku-based API, upon receiving this request, then makes another GET request to the Ngrok-exposed server running on our Raspberry Pi which authenticates the user's code and unlocks the lock.
 
 
